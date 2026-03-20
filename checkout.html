@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout — Keepsy</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/forms.css"/>
+  <link rel="stylesheet" href="css/checkout.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Keepsy</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li>
+      <li><a href="custom.html">Custom Order</a></li><li><a href="about.html">Our Story</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="toggleCart()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="page-header">
+  <p class="eyebrow">Almost There</p>
+  <h1>Checkout</h1>
+</div>
+
+<section class="checkout-section section-pad">
+  <div class="container checkout-layout" id="checkoutLayout">
+
+    <!-- LEFT: Delivery + Payment -->
+    <div class="checkout-main" data-animate="fade-right">
+
+      <!-- Delivery Details -->
+      <div class="checkout-block">
+        <h4 class="block-title"><span>1</span> Delivery Details</h4>
+        <div class="form-row">
+          <div class="form-group"><label>Full Name *</label><input type="text" id="co-name" placeholder="Priya Sharma" required/></div>
+          <div class="form-group"><label>Phone *</label><input type="tel" id="co-phone" placeholder="+91 98765 43210" required/></div>
+        </div>
+        <div class="form-group"><label>Email Address *</label><input type="email" id="co-email" placeholder="priya@email.com" required/></div>
+        <div class="form-group"><label>Delivery Address *</label><textarea id="co-address" placeholder="Flat no., Building, Street, Area" style="min-height:80px" required></textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>City *</label><input type="text" id="co-city" placeholder="Delhi" required/></div>
+          <div class="form-group"><label>PIN Code *</label><input type="text" id="co-pin" placeholder="110001" required/></div>
+        </div>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="checkout-block">
+        <h4 class="block-title"><span>2</span> Payment Method</h4>
+
+        <div class="payment-options">
+
+          <!-- UPI -->
+          <div class="payment-option" onclick="selectPayment('upi', this)">
+            <div class="payment-radio"><div class="radio-dot"></div></div>
+            <div class="payment-icon upi-icon">UPI</div>
+            <div class="payment-label"><strong>UPI Payment</strong><span>Pay directly via any UPI app</span></div>
+          </div>
+          <div class="payment-detail" id="upi-detail">
+            <div class="upi-box">
+              <div class="qr-placeholder">
+                <div class="qr-grid" id="qrGrid"></div>
+                <p class="qr-label">Scan with any UPI app</p>
+              </div>
+              <div class="upi-id-section">
+                <p class="upi-label">UPI ID</p>
+                <div class="upi-id-copy">
+                  <span id="upiIdText">8083675985@upi</span>
+                  <button onclick="copyUPI()" class="copy-btn">Copy</button>
+                </div>
+                <p class="upi-apps">Accepted: GPay · PhonePe · Paytm · BHIM · Any UPI app</p>
+                <div class="upi-instruction">
+                  <p>✦ Open your UPI app and pay to the UPI ID above</p>
+                  <p>✦ Enter your order amount as shown in the summary</p>
+                  <p>✦ Add your name as the remark</p>
+                  <p>✦ Click "Place Order" below after payment</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Razorpay / Card -->
+          <div class="payment-option" onclick="selectPayment('razorpay', this)">
+            <div class="payment-radio"><div class="radio-dot"></div></div>
+            <div class="payment-icon card-icon">💳</div>
+            <div class="payment-label"><strong>Card / Net Banking / Wallet</strong><span>Powered by Razorpay — 100% secure</span></div>
+          </div>
+          <div class="payment-detail" id="razorpay-detail">
+            <div class="razorpay-box">
+              <div class="rzp-header">
+                <div class="rzp-logo">rzp</div>
+                <span>Razorpay Secure Checkout</span>
+                <span class="rzp-lock">🔒 SSL Secured</span>
+              </div>
+              <div class="rzp-options">
+                <button class="rzp-btn rzp-card" onclick="showCardForm()">
+                  <span>💳</span> Pay with Card
+                </button>
+                <button class="rzp-btn rzp-nb" onclick="showNBForm()">
+                  <span>🏦</span> Net Banking
+                </button>
+                <button class="rzp-btn rzp-wallet" onclick="showWalletForm()">
+                  <span>👜</span> Wallets
+                </button>
+              </div>
+              <div id="rzpCardForm" style="display:none" class="rzp-form">
+                <div class="form-group"><label>Card Number</label><input type="text" placeholder="1234 5678 9012 3456" maxlength="19"/></div>
+                <div class="form-row">
+                  <div class="form-group"><label>Expiry</label><input type="text" placeholder="MM / YY" maxlength="7"/></div>
+                  <div class="form-group"><label>CVV</label><input type="text" placeholder="•••" maxlength="3"/></div>
+                </div>
+                <div class="form-group"><label>Name on Card</label><input type="text" placeholder="PRIYA SHARMA"/></div>
+              </div>
+              <div id="rzpNBForm" style="display:none" class="rzp-form">
+                <div class="form-group"><label>Select Your Bank</label>
+                  <select><option>HDFC Bank</option><option>ICICI Bank</option><option>SBI</option><option>Axis Bank</option><option>Kotak Mahindra</option><option>Yes Bank</option><option>Other</option></select>
+                </div>
+              </div>
+              <div id="rzpWalletForm" style="display:none" class="rzp-form">
+                <div class="wallet-grid">
+                  <button class="wallet-opt active">Paytm</button>
+                  <button class="wallet-opt">PhonePe</button>
+                  <button class="wallet-opt">Amazon Pay</button>
+                  <button class="wallet-opt">Mobikwik</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- COD -->
+          <div class="payment-option" onclick="selectPayment('cod', this)">
+            <div class="payment-radio"><div class="radio-dot"></div></div>
+            <div class="payment-icon cod-icon">🏠</div>
+            <div class="payment-label"><strong>Cash on Delivery</strong><span>Pay when your order arrives — available in Delhi NCR</span></div>
+          </div>
+          <div class="payment-detail" id="cod-detail">
+            <div class="cod-box">
+              <p>✦ Your order will be packed and dispatched first.</p>
+              <p>✦ Pay in cash when our delivery partner arrives.</p>
+              <p>✦ Available for orders within Delhi NCR only.</p>
+              <p>✦ COD orders may take 1–2 extra days to process.</p>
+            </div>
+          </div>
+
+        </div><!-- /payment-options -->
+      </div>
+
+    </div>
+
+    <!-- RIGHT: Order Summary -->
+    <div class="checkout-sidebar" data-animate="fade-left">
+      <div class="order-summary">
+        <h4>Order Summary</h4>
+        <div class="summary-items" id="summaryItems">
+          <p class="empty-summary">No items in cart yet.</p>
+        </div>
+        <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">₹ 0</span></div>
+        <div class="summary-row"><span>Shipping</span><span class="free-tag">FREE</span></div>
+        <div class="summary-row summary-total"><span>Total</span><strong id="summaryTotal">₹ 0</strong></div>
+
+        <button class="btn-primary w-full place-order-btn" onclick="placeOrder()">Place Order</button>
+        <p class="order-note">By placing your order, you agree to our terms. All keepsakes are handcrafted — expect 5–7 days for delivery.</p>
+      </div>
+
+      <div class="trust-badges">
+        <div class="badge"><span>🔒</span><p>Secure Checkout</p></div>
+        <div class="badge"><span>🎁</span><p>Gift Wrapped</p></div>
+        <div class="badge"><span>🚚</span><p>Free Delivery</p></div>
+      </div>
+    </div>
+
+  </div><!-- /checkout-layout -->
+
+  <!-- Order Confirmation -->
+  <div class="order-confirmed" id="orderConfirmed" style="display:none">
+    <div class="container confirmed-inner">
+      <div class="confirmed-icon">✦</div>
+      <h2>Order Placed!</h2>
+      <p>Thank you for your order. We'll begin crafting your keepsake right away and reach out shortly with confirmation details.</p>
+      <p><strong>Questions?</strong> WhatsApp us: +91 80836 75985</p>
+      <a href="index.html" class="btn-primary" style="margin-top:32px; display:inline-block">Back to Home</a>
+    </div>
+  </div>
+
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand"><h3 class="logo">Keepsy</h3><p>Personalized resin keepsakes<br/>crafted with love in Delhi, India.</p></div>
+    <div class="footer-links"><h5>Navigate</h5><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="custom.html">Custom Order</a></div>
+    <div class="footer-links"><h5>Help</h5><a href="#">Shipping Policy</a><a href="#">Return Policy</a></div>
+    <div class="footer-contact"><h5>Get in Touch</h5><p>📞 +91 80836 75985</p><p>✉️ hello@keepsy.in</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2024 Keepsy. All rights reserved.</p></div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>Your Cart</h3><button onclick="toggleCart()">✕</button></div>
+  <div class="cart-items" id="cartItems"><p class="cart-empty">Your cart is empty ✦</p></div>
+  <div class="cart-footer" id="cartFooter" style="display:none"><div class="cart-total"><span>Total</span><strong id="cartTotal">₹ 0</strong></div><a href="checkout.html" class="btn-primary w-full">Proceed to Checkout</a></div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/checkout.js"></script>
+</body>
+</html>

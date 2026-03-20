@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop — Keepsy</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/shop.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Keepsy</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html" class="active">Shop</a></li>
+      <li><a href="custom.html">Custom Order</a></li>
+      <li><a href="about.html">Our Story</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="toggleCart()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="custom.html">Custom Order</a><a href="about.html">Our Story</a><a href="contact.html">Contact</a>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <p class="eyebrow">Keepsy Collection</p>
+  <h1>Shop All Pieces</h1>
+  <p>Every ornament tells a story. Find yours.</p>
+</div>
+
+<!-- SHOP SECTION -->
+<section class="shop-section section-pad">
+  <div class="container">
+    <!-- Filters -->
+    <div class="shop-filters" data-animate="fade-up">
+      <div class="filter-group">
+        <label>Category</label>
+        <div class="filter-pills">
+          <button class="pill active" onclick="filterProducts('all', this)">All</button>
+          <button class="pill" onclick="filterProducts('bracelet', this)">Bracelets</button>
+          <button class="pill" onclick="filterProducts('earring', this)">Earrings</button>
+          <button class="pill" onclick="filterProducts('custom', this)">Custom</button>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>Sort by Price</label>
+        <select id="priceSort" onchange="sortProducts()">
+          <option value="default">Default</option>
+          <option value="low">Low to High</option>
+          <option value="high">High to Low</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid shop-grid" id="shopGrid">
+
+      <div class="product-card" data-category="bracelet" data-price="499" data-animate="fade-up" data-delay="0">
+        <a href="product-bracelet.html">
+          <div class="product-img-wrap">
+            <img src="images/bracelet.jpeg" alt="Memory Bracelet" class="product-img"/>
+            <div class="product-overlay"><span>Quick View</span></div>
+            <div class="product-badge">Bestseller</div>
+          </div>
+          <div class="product-info">
+            <h3>Memory Bracelet</h3>
+            <p>Personalized resin bracelet with name & date</p>
+            <div class="product-footer">
+              <span class="price">₹ 499</span>
+              <button class="add-cart-btn" onclick="event.preventDefault(); addToCart('Memory Bracelet', 499)">+ Add</button>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="product-card" data-category="earring" data-price="399" data-animate="fade-up" data-delay="100">
+        <a href="product-earrings.html">
+          <div class="product-img-wrap">
+            <img src="images/Earring.jpeg" alt="Keepsake Earrings" class="product-img"/>
+            <div class="product-overlay"><span>Quick View</span></div>
+          </div>
+          <div class="product-info">
+            <h3>Keepsake Earrings</h3>
+            <p>Delicate resin earrings with custom elements</p>
+            <div class="product-footer">
+              <span class="price">₹ 399</span>
+              <button class="add-cart-btn" onclick="event.preventDefault(); addToCart('Keepsake Earrings', 399)">+ Add</button>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="product-card" data-category="bracelet" data-price="649" data-animate="fade-up" data-delay="200">
+        <a href="product-bracelet.html">
+          <div class="product-img-wrap">
+            <img src="images/bracelet.jpeg" alt="Anniversary Bracelet" class="product-img" style="filter: sepia(0.15) saturate(0.9)"/>
+            <div class="product-overlay"><span>Quick View</span></div>
+            <div class="product-badge new-badge">New</div>
+          </div>
+          <div class="product-info">
+            <h3>Anniversary Bracelet</h3>
+            <p>With embedded floral petals & initials</p>
+            <div class="product-footer">
+              <span class="price">₹ 649</span>
+              <button class="add-cart-btn" onclick="event.preventDefault(); addToCart('Anniversary Bracelet', 649)">+ Add</button>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="product-card" data-category="earring" data-price="449" data-animate="fade-up" data-delay="300">
+        <a href="product-earrings.html">
+          <div class="product-img-wrap">
+            <img src="images/Earring.jpeg" alt="Floral Earrings" class="product-img" style="filter: hue-rotate(15deg) saturate(0.85)"/>
+            <div class="product-overlay"><span>Quick View</span></div>
+          </div>
+          <div class="product-info">
+            <h3>Floral Drop Earrings</h3>
+            <p>Dried flowers suspended in clear resin</p>
+            <div class="product-footer">
+              <span class="price">₹ 449</span>
+              <button class="add-cart-btn" onclick="event.preventDefault(); addToCart('Floral Drop Earrings', 449)">+ Add</button>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="product-card" data-category="custom" data-price="599" data-animate="fade-up" data-delay="400">
+        <a href="custom.html">
+          <div class="product-img-wrap custom-wrap">
+            <div class="custom-placeholder">
+              <span class="custom-icon">✦</span>
+              <p>Your Vision</p>
+            </div>
+          </div>
+          <div class="product-info">
+            <h3>Custom Creation</h3>
+            <p>Fully bespoke — you imagine, we create</p>
+            <div class="product-footer">
+              <span class="price">From ₹ 599</span>
+              <button class="add-cart-btn">Design →</button>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="product-card" data-category="bracelet" data-price="579" data-animate="fade-up" data-delay="500">
+        <a href="product-bracelet.html">
+          <div class="product-img-wrap">
+            <img src="images/bracelet.jpeg" alt="Friendship Bracelet" class="product-img" style="filter: sepia(0.2)"/>
+            <div class="product-overlay"><span>Quick View</span></div>
+          </div>
+          <div class="product-info">
+            <h3>Friendship Bracelet Set</h3>
+            <p>A pair to share — identical designs, one bond</p>
+            <div class="product-footer">
+              <span class="price">₹ 579</span>
+              <button class="add-cart-btn" onclick="event.preventDefault(); addToCart('Friendship Bracelet Set', 579)">+ Add</button>
+            </div>
+          </div>
+        </a>
+      </div>
+
+    </div><!-- /shop-grid -->
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <h3 class="logo">Keepsy</h3>
+      <p>Personalized resin keepsakes<br/>crafted with love in Delhi, India.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-links"><h5>Navigate</h5><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="custom.html">Custom Order</a><a href="about.html">Our Story</a><a href="contact.html">Contact</a></div>
+    <div class="footer-links"><h5>Help</h5><a href="#">Shipping Policy</a><a href="#">Return Policy</a><a href="#">FAQ</a></div>
+    <div class="footer-contact"><h5>Get in Touch</h5><p>📍 Delhi, India</p><p>📞 +91 80836 75985</p><p>✉️ hello@keepsy.in</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2024 Keepsy. All rights reserved. Made with ♥ in Delhi.</p></div>
+</footer>
+
+<!-- Cart -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>Your Cart</h3><button onclick="toggleCart()">✕</button></div>
+  <div class="cart-items" id="cartItems"><p class="cart-empty">Your cart is empty ✦</p></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">₹ 0</strong></div>
+    <a href="checkout.html" class="btn-primary w-full">Proceed to Checkout</a>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/shop.js"></script>
+</body>
+</html>

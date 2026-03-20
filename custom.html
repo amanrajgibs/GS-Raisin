@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Custom Order — Keepsy</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/forms.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Keepsy</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li>
+      <li><a href="custom.html" class="active">Custom Order</a></li><li><a href="about.html">Our Story</a></li><li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="toggleCart()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="custom.html">Custom Order</a><a href="about.html">Our Story</a><a href="contact.html">Contact</a>
+</div>
+
+<!-- Page Header -->
+<div class="page-header">
+  <p class="eyebrow">Design Your Own</p>
+  <h1>Custom Order</h1>
+  <p>Tell us your story. We'll craft it into something beautiful.</p>
+</div>
+
+<section class="form-section section-pad">
+  <div class="container form-layout">
+
+    <!-- Form -->
+    <div class="form-box" data-animate="fade-right">
+      <h3>Your Custom Piece</h3>
+      <p class="form-intro">Fill in the details below. We'll review your request and confirm within 24 hours.</p>
+
+      <form id="customForm" onsubmit="submitCustomOrder(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Full Name *</label>
+            <input type="text" name="fullName" required placeholder="Priya Sharma"/>
+          </div>
+          <div class="form-group">
+            <label>Phone / WhatsApp *</label>
+            <input type="tel" name="phone" required placeholder="+91 98765 43210"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" name="email" required placeholder="priya@email.com"/>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Product Type *</label>
+            <select name="productType" required>
+              <option value="">Select product</option>
+              <option>Bracelet</option>
+              <option>Earrings</option>
+              <option>Bracelet Pair (Set of 2)</option>
+              <option>Other / Discuss with us</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Quantity *</label>
+            <select name="qty">
+              <option>1</option><option>2</option><option>3</option>
+              <option>4</option><option>5+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Name / Initials to Include</label>
+          <input type="text" name="names" placeholder="e.g. Priya & Arjun, or just 'P.S.'"/>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Special Date</label>
+            <input type="text" name="date" placeholder="e.g. 14.02.2019"/>
+          </div>
+          <div class="form-group">
+            <label>Color Preference</label>
+            <select name="color">
+              <option>Gold Pearl</option>
+              <option>Blush Rose</option>
+              <option>Sky Blue</option>
+              <option>Sage Green</option>
+              <option>Midnight Black</option>
+              <option>Surprise Me</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Your Message / Special Instructions</label>
+          <textarea name="message" placeholder="Tell us anything — the occasion, what this piece means, any specific elements you'd like included..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Upload a Reference Image (optional)</label>
+          <div class="file-upload-wrap" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" name="refImage" accept="image/*" style="display:none" onchange="showFileName(this)"/>
+            <div class="file-upload-inner">
+              <span class="upload-icon">↑</span>
+              <p>Click to upload a reference image</p>
+              <span class="file-name" id="fileName">PNG, JPG up to 10MB</span>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary w-full submit-btn">Submit Custom Request</button>
+      </form>
+
+      <div class="form-success" id="formSuccess" style="display:none">
+        <div class="success-icon">✦</div>
+        <h3>Request Received!</h3>
+        <p>Thank you! We'll reach out within 24 hours to confirm your design and share pricing details.</p>
+        <p>For urgent orders, WhatsApp us at <strong>+91 80836 75985</strong></p>
+      </div>
+    </div>
+
+    <!-- Sidebar Info -->
+    <div class="form-sidebar" data-animate="fade-left">
+      <div class="sidebar-card">
+        <h4>How It Works</h4>
+        <div class="how-step"><span>1</span><div><strong>Submit your request</strong><p>Fill out the form with your details and vision.</p></div></div>
+        <div class="how-step"><span>2</span><div><strong>We confirm & quote</strong><p>We'll reach out within 24 hours with pricing and timeline.</p></div></div>
+        <div class="how-step"><span>3</span><div><strong>We craft your piece</strong><p>Hand-poured and finished over 5–7 business days.</p></div></div>
+        <div class="how-step"><span>4</span><div><strong>Delivered to you</strong><p>Gift-wrapped and shipped with love across India.</p></div></div>
+      </div>
+
+      <div class="sidebar-card sidebar-pricing">
+        <h4>Pricing Guide</h4>
+        <div class="price-row"><span>Memory Bracelet</span><strong>₹ 499</strong></div>
+        <div class="price-row"><span>Keepsake Earrings</span><strong>₹ 399</strong></div>
+        <div class="price-row"><span>Anniversary Bracelet</span><strong>₹ 649</strong></div>
+        <div class="price-row"><span>Bracelet Set (×2)</span><strong>₹ 899</strong></div>
+        <div class="price-row"><span>Fully Custom</span><strong>From ₹ 599</strong></div>
+        <p class="price-note">Final price depends on complexity. We'll confirm before you pay.</p>
+      </div>
+
+      <div class="sidebar-card sidebar-contact">
+        <h4>Questions?</h4>
+        <p>WhatsApp us directly for quick answers:</p>
+        <a href="https://wa.me/918083675985" class="whatsapp-btn" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand"><h3 class="logo">Keepsy</h3><p>Personalized resin keepsakes<br/>crafted with love in Delhi, India.</p></div>
+    <div class="footer-links"><h5>Navigate</h5><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="custom.html">Custom Order</a><a href="about.html">Our Story</a></div>
+    <div class="footer-links"><h5>Help</h5><a href="#">Shipping Policy</a><a href="#">Return Policy</a><a href="#">FAQ</a></div>
+    <div class="footer-contact"><h5>Get in Touch</h5><p>📍 Delhi, India</p><p>📞 +91 80836 75985</p><p>✉️ hello@keepsy.in</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2024 Keepsy. All rights reserved. Made with ♥ in Delhi.</p></div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>Your Cart</h3><button onclick="toggleCart()">✕</button></div>
+  <div class="cart-items" id="cartItems"><p class="cart-empty">Your cart is empty ✦</p></div>
+  <div class="cart-footer" id="cartFooter" style="display:none"><div class="cart-total"><span>Total</span><strong id="cartTotal">₹ 0</strong></div><a href="checkout.html" class="btn-primary w-full">Proceed to Checkout</a></div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+function showFileName(input) {
+  const f = input.files[0];
+  document.getElementById('fileName').textContent = f ? f.name : 'PNG, JPG up to 10MB';
+}
+function submitCustomOrder(e) {
+  e.preventDefault();
+  document.getElementById('customForm').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+  window.scrollTo({ top: document.querySelector('.form-box').offsetTop - 100, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

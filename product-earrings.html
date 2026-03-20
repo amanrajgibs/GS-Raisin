@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Keepsake Earrings — Keepsy</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/product.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Keepsy</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li><li><a href="shop.html" class="active">Shop</a></li>
+      <li><a href="custom.html">Custom Order</a></li><li><a href="about.html">Our Story</a></li><li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="toggleCart()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="custom.html">Custom Order</a><a href="about.html">Our Story</a><a href="contact.html">Contact</a>
+</div>
+
+<div class="breadcrumb">
+  <div class="container"><a href="index.html">Home</a> / <a href="shop.html">Shop</a> / <span>Keepsake Earrings</span></div>
+</div>
+
+<section class="product-detail section-pad">
+  <div class="container product-inner">
+    <div class="product-gallery" data-animate="fade-right">
+      <div class="gallery-main">
+        <img src="images/Earring.jpeg" alt="Keepsake Earrings" id="mainImg" class="gallery-main-img"/>
+        <div class="gallery-badge">✦ Handcrafted</div>
+      </div>
+      <div class="gallery-thumbs">
+        <div class="thumb active" onclick="setImg(this, 'images/Earring.jpeg')"><img src="images/Earring.jpeg" alt="View 1"/></div>
+        <div class="thumb" onclick="setImg(this, 'images/Earring.jpeg')"><img src="images/Earring.jpeg" alt="View 2" style="filter:sepia(0.2)"/></div>
+        <div class="thumb" onclick="setImg(this, 'images/Earring.jpeg')"><img src="images/Earring.jpeg" alt="View 3" style="filter:brightness(1.1)"/></div>
+      </div>
+    </div>
+
+    <div class="product-details" data-animate="fade-left">
+      <p class="eyebrow">Resin Earrings</p>
+      <h1 class="product-title">Keepsake Earrings</h1>
+      <div class="product-rating"><span class="stars">★★★★★</span><span class="review-count">19 reviews</span></div>
+      <p class="product-price">₹ 399</p>
+      <p class="product-desc">Delicate, wearable art. Our resin earrings are crafted with dried florals, glitter, or custom elements, finished to a glass-like shine. Each pair is unique by design.</p>
+
+      <div class="customization-box">
+        <h4>Personalize Your Piece</h4>
+        <div class="form-group">
+          <label>Initials / Text</label>
+          <input type="text" id="custName" placeholder="e.g. A ♥ R" maxlength="10"/>
+        </div>
+        <div class="form-group">
+          <label>Style Preference</label>
+          <select id="custStyle">
+            <option value="">Select a style</option>
+            <option>Floral (dried petals)</option>
+            <option>Glitter & sparkle</option>
+            <option>Minimal clear</option>
+            <option>Galaxy / starry</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Color Theme</label>
+          <div class="color-options">
+            <div class="color-swatch active" style="background:#e8d5b0" title="Gold Pearl" onclick="selectColor(this)"></div>
+            <div class="color-swatch" style="background:#e8c4b8" title="Blush Rose" onclick="selectColor(this)"></div>
+            <div class="color-swatch" style="background:#b8d4e8" title="Sky Blue" onclick="selectColor(this)"></div>
+            <div class="color-swatch" style="background:#d8b8e8" title="Lilac" onclick="selectColor(this)"></div>
+            <div class="color-swatch" style="background:#2c2417" title="Midnight" onclick="selectColor(this)"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-actions">
+        <div class="qty-wrap">
+          <button onclick="changeQty(-1)">−</button>
+          <span id="qty">1</span>
+          <button onclick="changeQty(1)">+</button>
+        </div>
+        <button class="btn-primary add-to-cart-main" onclick="addToCartFromProduct()">Add to Cart</button>
+      </div>
+      <a href="checkout.html" class="btn-ghost buy-now-btn" onclick="addToCartFromProduct()">Buy Now →</a>
+
+      <div class="product-meta">
+        <div class="meta-item"><span>✦</span><p>Delivered in 5–7 business days</p></div>
+        <div class="meta-item"><span>🎁</span><p>Complimentary gift wrapping included</p></div>
+        <div class="meta-item"><span>🔒</span><p>Secure payment via UPI, Card & COD</p></div>
+        <div class="meta-item"><span>🌸</span><p>Handcrafted with care in Delhi, India</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand"><h3 class="logo">Keepsy</h3><p>Personalized resin keepsakes<br/>crafted with love in Delhi, India.</p></div>
+    <div class="footer-links"><h5>Navigate</h5><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="custom.html">Custom Order</a><a href="about.html">Our Story</a></div>
+    <div class="footer-links"><h5>Help</h5><a href="#">Shipping Policy</a><a href="#">Return Policy</a><a href="#">FAQ</a></div>
+    <div class="footer-contact"><h5>Get in Touch</h5><p>📞 +91 80836 75985</p><p>✉️ hello@keepsy.in</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2024 Keepsy. All rights reserved.</p></div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>Your Cart</h3><button onclick="toggleCart()">✕</button></div>
+  <div class="cart-items" id="cartItems"><p class="cart-empty">Your cart is empty ✦</p></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">₹ 0</strong></div>
+    <a href="checkout.html" class="btn-primary w-full">Proceed to Checkout</a>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script>
+let qty = 1;
+function changeQty(d) { qty = Math.max(1, qty + d); document.getElementById('qty').textContent = qty; }
+function setImg(el, src) { document.getElementById('mainImg').src = src; document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
+function selectColor(el) { document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active')); el.classList.add('active'); }
+function addToCartFromProduct() { const n = document.getElementById('custName').value; const label = n ? `Keepsake Earrings (${n})` : 'Keepsake Earrings'; for (let i = 0; i < qty; i++) addToCart(label, 399); }
+</script>
+</body>
+</html>

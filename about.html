@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Story — Keepsy</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/about.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Keepsy</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li>
+      <li><a href="custom.html">Custom Order</a></li><li><a href="about.html" class="active">Our Story</a></li><li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="cart-btn" onclick="toggleCart()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a><a href="shop.html">Shop</a><a href="custom.html">Custom Order</a><a href="about.html">Our Story</a><a href="contact.html">Contact</a>
+</div>
+
+<!-- Hero -->
+<section class="about-hero">
+  <div class="about-hero-inner container" data-animate="fade-up">
+    <p class="eyebrow">Our Story</p>
+    <h1>Born from a<br/><em>Real Memory</em></h1>
+    <p class="hero-sub">Every great brand starts with a moment. Ours started with a gift that couldn't be found anywhere.</p>
+  </div>
+</section>
+
+<!-- Story Section -->
+<section class="story-section section-pad">
+  <div class="container story-inner">
+    <div class="story-img" data-animate="fade-right">
+      <img src="images/bracelet.jpeg" alt="Keepsy Story" class="story-main-img"/>
+      <div class="story-year">Est. 2024 · Delhi</div>
+    </div>
+    <div class="story-text" data-animate="fade-left">
+      <p class="eyebrow">How It Began</p>
+      <h2>A Gift That<br/>Couldn't Exist — Until Now</h2>
+      <p>It started the way most good things do: with a feeling. Aman was searching for something meaningful to give on a special anniversary — not flowers, not a card, not something off a shelf. He wanted an object that held the weight of the memory itself.</p>
+      <p>He couldn't find it. So he made it.</p>
+      <p>What followed was months of experimentation with resin — poured, cured, sanded, polished — until it was perfect. A bracelet with two names and a date, sealed forever under glass-like resin. The reaction to that first piece told him everything.</p>
+      <p>Together with Suyash, he built Keepsy — a brand where every piece is made to be worn, treasured, and passed down. Not fast fashion. Not generic jewellery. Something that <em>means something</em>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Values -->
+<section class="values-section section-pad bg-warm">
+  <div class="container">
+    <div class="section-header" data-animate="fade-up">
+      <p class="eyebrow">What We Stand For</p>
+      <h2>Our Values</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card" data-animate="fade-up" data-delay="0">
+        <p class="value-num">01</p>
+        <h4>Memory Over Merchandise</h4>
+        <p>We don't make products. We make containers for your most important moments.</p>
+      </div>
+      <div class="value-card" data-animate="fade-up" data-delay="100">
+        <p class="value-num">02</p>
+        <h4>Craft Over Speed</h4>
+        <p>Every piece is hand-poured and inspected. We'd rather be slow and perfect than fast and forgettable.</p>
+      </div>
+      <div class="value-card" data-animate="fade-up" data-delay="200">
+        <p class="value-num">03</p>
+        <h4>Emotion Over Transaction</h4>
+        <p>When you buy from Keepsy, you're not just purchasing jewellery. You're making a declaration.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Founders -->
+<section class="founders-section section-pad">
+  <div class="container">
+    <div class="section-header" data-animate="fade-up">
+      <p class="eyebrow">The People Behind the Craft</p>
+      <h2>Meet the Founders</h2>
+    </div>
+    <div class="founders-grid">
+      <div class="founder-card" data-animate="fade-up" data-delay="0">
+        <div class="founder-avatar-lg">A</div>
+        <h3>Aman Raj</h3>
+        <p class="founder-role">Co-Founder & Creative Lead</p>
+        <p class="founder-bio">Aman is the dreamer. With a background in design and an obsession with craftsmanship, he spends his days experimenting with resin formulas and building something that's never been done quite this way before. His motto: if it doesn't feel like a memory, it's not done yet.</p>
+        <blockquote>"I wanted to make something that made people cry happy tears. That's the standard."</blockquote>
+      </div>
+      <div class="founder-card" data-animate="fade-up" data-delay="150">
+        <div class="founder-avatar-lg">S</div>
+        <h3>Suyash Pratap</h3>
+        <p class="founder-role">Co-Founder & Operations Lead</p>
+        <p class="founder-bio">Suyash is the builder. He ensures every order is fulfilled with the same care that went into its creation — from packing to delivery to customer happiness. He believes that the experience around a product matters just as much as the product itself.</p>
+        <blockquote>"A memory deserves to arrive the way it feels — precious, wrapped, and handled with love."</blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <div class="container cta-inner" data-animate="fade-up">
+    <h2>Ready to Create<br/><em>Your Keepsake?</em></h2>
+    <p>Designed by us. Inspired by you.</p>
+    <a href="custom.html" class="btn-primary btn-lg">Start a Custom Order</a>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand"><h3 class="logo">Keepsy</h3><p>Personalized resin keepsakes<br/>crafted with love in Delhi, India.</p></div>
+    <div class="footer-links"><h5>Navigate</h5><a href="index.html">Home</a><a href="shop.html">Shop</a><a href="custom.html">Custom Order</a><a href="about.html">Our Story</a></div>
+    <div class="footer-links"><h5>Help</h5><a href="#">Shipping Policy</a><a href="#">Return Policy</a><a href="#">FAQ</a></div>
+    <div class="footer-contact"><h5>Get in Touch</h5><p>📍 Delhi, India</p><p>📞 +91 80836 75985</p><p>✉️ hello@keepsy.in</p><p class="footer-founders">Founded by Aman Raj &<br/>Suyash Pratap</p></div>
+  </div>
+  <div class="footer-bottom"><p>© 2024 Keepsy. All rights reserved. Made with ♥ in Delhi.</p></div>
+</footer>
+
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>Your Cart</h3><button onclick="toggleCart()">✕</button></div>
+  <div class="cart-items" id="cartItems"><p class="cart-empty">Your cart is empty ✦</p></div>
+  <div class="cart-footer" id="cartFooter" style="display:none"><div class="cart-total"><span>Total</span><strong id="cartTotal">₹ 0</strong></div><a href="checkout.html" class="btn-primary w-full">Proceed to Checkout</a></div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+/* ============================================================
+   KEEPSY — Forms & Shared Page Styles
+   ============================================================ */
+
+/* ---- FORM LAYOUT ---- */
+.form-section { padding-top: 60px; }
+.form-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 52px;
+  align-items: start;
+}
+.form-box {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  padding: 48px 44px;
+  border: 1px solid var(--warm);
+  box-shadow: var(--shadow-card);
+}
+.form-box h3 {
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
+.form-intro {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-bottom: 32px;
+  font-style: italic;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.submit-btn { margin-top: 8px; padding: 16px; font-size: 0.9rem; }
+
+/* File Upload */
+.file-upload-wrap {
+  border: 2px dashed var(--warm);
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.file-upload-wrap:hover {
+  border-color: var(--gold);
+  background: var(--blush-light);
+}
+.upload-icon {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: var(--gold-dark);
+}
+.file-upload-inner p { font-size: 0.88rem; color: var(--text-mid); margin-bottom: 6px; }
+.file-name { font-size: 0.78rem; color: var(--text-light); }
+
+/* Form Success */
+.form-success {
+  text-align: center;
+  padding: 60px 20px;
+}
+.success-icon {
+  font-size: 3rem;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: block;
+  animation: pulse 2s ease infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+.form-success h3 { margin-bottom: 16px; font-size: 2rem; }
+.form-success p { font-size: 0.95rem; color: var(--text-mid); margin-bottom: 10px; }
+
+/* ---- SIDEBAR ---- */
+.form-sidebar { display: flex; flex-direction: column; gap: 20px; }
+.sidebar-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 28px 28px 24px;
+  border: 1px solid var(--warm);
+  box-shadow: var(--shadow-card);
+}
+.sidebar-card h4 {
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+  margin-bottom: 20px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+}
+
+/* How It Works Steps */
+.how-step { display: flex; gap: 16px; margin-bottom: 18px; align-items: flex-start; }
+.how-step span {
+  width: 26px; height: 26px; flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--blush-light);
+  color: var(--blush-mid);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--blush);
+  margin-top: 2px;
+}
+.how-step strong { display: block; font-size: 0.88rem; margin-bottom: 4px; font-weight: 500; }
+.how-step p { font-size: 0.82rem; line-height: 1.5; }
+
+/* Pricing */
+.price-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--warm); }
+.price-row:last-of-type { border-bottom: none; }
+.price-row span { font-size: 0.86rem; color: var(--text-mid); }
+.price-row strong { font-family: var(--font-serif); font-size: 1.05rem; }
+.price-note { font-size: 0.78rem; color: var(--text-light); font-style: italic; margin-top: 12px; }
+
+/* WhatsApp */
+.whatsapp-btn {
+  display: flex; align-items: center; gap: 10px;
+  background: #25D366; color: white;
+  padding: 13px 20px; border-radius: 6px;
+  font-size: 0.88rem; font-weight: 500;
+  margin-top: 14px;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.whatsapp-btn:hover { opacity: 0.92; transform: translateY(-1px); }
+
+/* Contact Details */
+.contact-detail { display: flex; gap: 14px; margin-bottom: 18px; align-items: flex-start; }
+.contact-detail span { font-size: 1.2rem; flex-shrink: 0; }
+.contact-detail strong { display: block; font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-light); font-weight: 500; margin-bottom: 3px; }
+.contact-detail p { font-size: 0.9rem; }
+
+/* Quick links */
+.quick-link { display: block; font-size: 0.86rem; color: var(--text-mid); padding: 8px 0; border-bottom: 1px solid var(--warm); transition: color 0.2s, padding-left 0.2s; }
+.quick-link:hover { color: var(--text-dark); padding-left: 6px; }
+.quick-link:last-child { border-bottom: none; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  .form-layout { grid-template-columns: 1fr; }
+  .form-sidebar { display: grid; grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 600px) {
+  .form-box { padding: 32px 24px; }
+  .form-row { grid-template-columns: 1fr; }
+  .form-sidebar { grid-template-columns: 1fr; }
+}
