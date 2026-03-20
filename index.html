@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keepsy — Customizable Resin Keepsakes</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Jost:wght@200;300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0f0d0a;
+  --parchment: #f5efe6;
+  --sand: #e8dece;
+  --rust: #b5401a;
+  --terra: #c05a2c;
+  --copper: #9e6b3a;
+  --sienna: #7a3d1e;
+  --taupe: #c4a882;
+  --ecru: #f0e8d8;
+  --mist: #faf7f2;
+  --offwhite: #fefcf9;
+  --clay: #d4876a;
+  --silver: #8c8880;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--offwhite);color:var(--ink);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;z-index:1000;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+body{cursor:none;}
+.cur{width:10px;height:10px;background:var(--rust);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .25s,height .25s;}
+.cur-r{width:32px;height:32px;border:1px solid rgba(181,64,26,.45);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .18s ease-out;}
+nav{position:fixed;top:0;width:100%;z-index:500;padding:22px 64px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,padding .4s;}
+nav.scrolled{background:rgba(15,13,10,.94);backdrop-filter:blur(14px);padding:14px 64px;border-bottom:1px solid rgba(196,168,130,.12);}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;letter-spacing:.14em;color:var(--parchment);text-decoration:none;}
+.logo sup{font-family:'Jost',sans-serif;font-size:.5rem;letter-spacing:.2em;color:var(--taupe);vertical-align:super;margin-left:4px;}
+.nav-links{display:flex;gap:40px;list-style:none;}
+.nav-links a{font-size:.78rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,230,.6);text-decoration:none;transition:color .3s;}
+.nav-links a:hover{color:var(--parchment);}
+.nav-btn{padding:10px 28px;background:transparent;border:1px solid rgba(196,168,130,.5);color:var(--taupe);font-family:'Jost',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s;cursor:none;border-radius:1px;}
+.nav-btn:hover{background:var(--rust);border-color:var(--rust);color:var(--parchment);}
+
+/* HERO */
+.hero{height:100vh;min-height:700px;background:var(--ink);display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;}
+.hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:0 64px 80px;position:relative;z-index:2;}
+.hero-bg-text{position:absolute;bottom:-20px;left:-10px;font-family:'Bebas Neue',sans-serif;font-size:clamp(100px,16vw,200px);color:rgba(181,64,26,.06);line-height:1;pointer-events:none;white-space:nowrap;user-select:none;}
+.hero-eyebrow{display:flex;align-items:center;gap:16px;font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;color:var(--taupe);margin-bottom:28px;}
+.hero-line{width:40px;height:1px;background:var(--taupe);opacity:.5;}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(3rem,5.5vw,5.2rem);line-height:1.06;color:var(--parchment);margin-bottom:28px;}
+.hero h1 em{font-style:italic;color:var(--clay);}
+.hero-desc{font-size:1rem;font-weight:300;line-height:1.8;color:rgba(245,239,230,.45);max-width:420px;margin-bottom:48px;}
+.hero-btns{display:flex;gap:14px;}
+.btn-fill{padding:15px 38px;background:var(--rust);color:var(--parchment);font-family:'Jost',sans-serif;font-size:.75rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border:none;border-radius:1px;cursor:none;transition:background .3s,transform .3s;box-shadow:0 6px 28px rgba(181,64,26,.35);}
+.btn-fill:hover{background:var(--sienna);transform:translateY(-3px);}
+.btn-ghost{padding:14px 36px;background:transparent;border:1px solid rgba(245,239,230,.2);color:rgba(245,239,230,.6);font-family:'Jost',sans-serif;font-size:.75rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;border-radius:1px;cursor:none;transition:all .3s;}
+.btn-ghost:hover{border-color:rgba(245,239,230,.5);color:var(--parchment);transform:translateY(-3px);}
+.hero-right{position:relative;overflow:hidden;}
+.hero-img-main{width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(1.1);transition:transform 8s ease;}
+.hero:hover .hero-img-main{transform:scale(1.04);}
+.hero-img-overlay{position:absolute;inset:0;background:linear-gradient(to right,var(--ink) 0%,rgba(15,13,10,.3) 50%,transparent 100%);}
+.hero-detail-card{position:absolute;bottom:60px;right:50px;background:rgba(15,13,10,.85);backdrop-filter:blur(12px);border:1px solid rgba(196,168,130,.15);padding:22px 28px;text-align:center;}
+.hero-detail-card strong{display:block;font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--taupe);}
+.hero-detail-card span{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(245,239,230,.35);margin-top:4px;display:block;}
+.hero-scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%) translateX(-32vw);display:flex;flex-direction:column;align-items:center;gap:10px;}
+.hero-scroll-hint span{font-size:.6rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(245,239,230,.25);writing-mode:vertical-rl;}
+.scroll-bar{width:1px;height:48px;background:linear-gradient(to bottom,rgba(196,168,130,.4),transparent);animation:sb 2s ease infinite;}
+@keyframes sb{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* MARQUEE */
+.marquee-wrap{background:var(--rust);overflow:hidden;padding:13px 0;}
+.marquee-track{display:flex;animation:mq 24s linear infinite;width:max-content;}
+.marquee-item{display:flex;align-items:center;gap:20px;padding:0 36px;font-size:.68rem;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:rgba(245,239,230,.85);white-space:nowrap;}
+.m-dot{opacity:.5;font-size:.6rem;}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* COMMONS */
+section{padding:110px 64px;}
+.label-tag{display:inline-flex;align-items:center;gap:14px;font-size:.67rem;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:var(--rust);margin-bottom:18px;}
+.label-tag::after{content:'';width:28px;height:1px;background:var(--rust);opacity:.5;}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,3.8vw,3.2rem);line-height:1.12;color:var(--ink);}
+.sec-title em{font-style:italic;color:var(--rust);}
+.sec-title.light{color:var(--parchment);}
+.sec-title.light em{color:var(--clay);}
+
+/* STORY */
+.story{background:var(--ecru);display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0;}
+.story-visuals{position:relative;height:700px;overflow:hidden;}
+.story-img-a{width:62%;height:68%;object-fit:cover;position:absolute;top:0;right:0;filter:saturate(1.05);}
+.story-img-b{width:55%;height:60%;object-fit:cover;position:absolute;bottom:0;left:0;border:8px solid var(--ecru);filter:saturate(1.05);}
+.story-year-badge{position:absolute;top:50%;left:48%;transform:translate(-50%,-50%);background:var(--ink);color:var(--taupe);padding:20px 24px;text-align:center;z-index:3;border:1px solid rgba(196,168,130,.2);width:130px;}
+.story-year-badge strong{display:block;font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--clay);letter-spacing:.06em;line-height:1;}
+.story-year-badge span{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;}
+.story-content{padding:100px 72px 80px 64px;display:flex;flex-direction:column;justify-content:center;background:var(--ecru);}
+.story-body{font-size:1.02rem;font-weight:300;line-height:1.85;color:#5a4030;margin:22px 0 44px;}
+.story-pillars{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.pillar{background:var(--offwhite);border:1px solid rgba(181,64,26,.1);padding:22px 20px;border-radius:2px;transition:border-color .3s,transform .3s;}
+.pillar:hover{border-color:rgba(181,64,26,.35);transform:translateY(-4px);}
+.pillar-icon{font-size:1.6rem;margin-bottom:10px;}
+.pillar-title{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--ink);margin-bottom:6px;}
+.pillar-desc{font-size:.8rem;font-weight:300;line-height:1.55;color:var(--silver);}
+
+/* SHOP */
+.shop{background:var(--ink);}
+.shop-intro{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px;}
+.shop-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.product-card{position:relative;overflow:hidden;cursor:none;background:#1a1612;}
+.product-img-wrap{height:400px;overflow:hidden;position:relative;}
+.product-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .7s ease;filter:brightness(.85) saturate(1.1);}
+.product-card:hover .product-img-wrap img{transform:scale(1.08);}
+.product-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(15,13,10,.92) 0%,rgba(15,13,10,.2) 50%,transparent 100%);}
+.product-tag{position:absolute;top:20px;left:20px;background:var(--rust);color:var(--parchment);font-size:.58rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:5px 12px;}
+.product-info{position:absolute;bottom:0;left:0;right:0;padding:28px 28px 32px;}
+.product-cat{font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--clay);margin-bottom:8px;}
+.product-name{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--parchment);margin-bottom:8px;line-height:1.2;}
+.product-desc{font-size:.85rem;font-weight:300;line-height:1.65;color:rgba(245,239,230,.5);margin-bottom:20px;max-height:0;overflow:hidden;transition:max-height .5s ease;}
+.product-card:hover .product-desc{max-height:80px;}
+.product-bottom{display:flex;align-items:center;justify-content:space-between;}
+.product-price{font-family:'DM Serif Display',serif;font-size:1.4rem;color:var(--taupe);}
+.product-price s{font-size:.9rem;font-family:'Jost',sans-serif;color:rgba(245,239,230,.25);margin-right:6px;}
+.quick-order-btn{position:absolute;top:20px;right:20px;width:42px;height:42px;border-radius:50%;background:var(--rust);border:none;color:var(--parchment);font-size:1rem;cursor:none;display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(-8px);transition:opacity .3s,transform .3s;}
+.product-card:hover .quick-order-btn{opacity:1;transform:translateY(0);}
+
+/* PROCESS */
+.process{background:var(--parchment);}
+.process-inner{display:grid;grid-template-columns:1fr 3fr;gap:80px;align-items:start;}
+.process-left{position:sticky;top:120px;}
+.process-body{font-size:.95rem;font-weight:300;line-height:1.8;color:#7a5a44;margin:20px 0 36px;}
+.process-steps{display:flex;flex-direction:column;gap:0;}
+.process-step{display:grid;grid-template-columns:80px 1fr;gap:0;padding:36px 0;border-top:1px solid rgba(181,64,26,.1);transition:background .3s;}
+.process-step:hover{background:rgba(181,64,26,.02);}
+.step-num-box{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;line-height:1;color:rgba(181,64,26,.12);padding-top:4px;}
+.step-icon-row{display:flex;align-items:center;gap:14px;margin-bottom:12px;}
+.step-emoji{font-size:1.5rem;}
+.step-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--ink);}
+.step-body{font-size:.88rem;font-weight:300;line-height:1.7;color:#8a6a52;}
+
+/* TESTIMONIALS */
+.testimonials{background:var(--ink);}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:56px;}
+.test-card{background:#16130f;padding:44px 36px;border:1px solid rgba(196,168,130,.07);transition:border-color .3s,transform .3s;}
+.test-card:hover{border-color:rgba(196,168,130,.2);transform:translateY(-6px);}
+.test-stars{display:flex;gap:3px;margin-bottom:20px;}
+.star{color:var(--copper);font-size:.85rem;}
+.test-quote{font-family:'DM Serif Display',serif;font-size:1rem;font-style:italic;line-height:1.8;color:rgba(245,239,230,.65);margin-bottom:28px;}
+.test-author{display:flex;align-items:center;gap:14px;}
+.test-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--rust),var(--copper));display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:1.1rem;color:var(--parchment);font-weight:700;}
+.test-name{font-size:.82rem;font-weight:500;letter-spacing:.06em;color:var(--taupe);}
+.test-loc{font-size:.75rem;color:rgba(245,239,230,.3);margin-top:2px;}
+
+/* PAYMENT */
+.payment-sec{background:var(--mist);}
+.payment-tabs{display:flex;gap:0;margin-top:56px;border:1px solid rgba(181,64,26,.15);border-radius:2px;overflow:hidden;}
+.pay-tab{flex:1;padding:16px 10px;text-align:center;background:white;border:none;cursor:none;font-family:'Jost',sans-serif;font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#a09080;border-right:1px solid rgba(181,64,26,.1);transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.pay-tab:last-child{border-right:none;}
+.pay-tab.active{background:var(--rust);color:var(--parchment);}
+.pay-tab:hover:not(.active){background:var(--ecru);color:var(--ink);}
+.pay-tab-icon{font-size:1.35rem;}
+.payment-panels{margin-top:32px;}
+.pay-panel{display:none;}
+.pay-panel.active{display:block;}
+.pay-panel-inner{background:white;border:1px solid rgba(181,64,26,.1);border-radius:2px;padding:48px;max-width:640px;}
+.pay-panel h3{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--ink);margin-bottom:6px;}
+.pay-panel p.note{font-size:.88rem;font-weight:300;color:var(--silver);margin-bottom:32px;}
+.gw-group{margin-bottom:18px;}
+.gw-group label{display:block;font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--rust);margin-bottom:8px;}
+.gw-group input,.gw-group select{width:100%;padding:14px 16px;border:1px solid rgba(181,64,26,.2);border-radius:2px;background:var(--mist);color:var(--ink);font-family:'Jost',sans-serif;font-size:.95rem;font-weight:300;outline:none;transition:border-color .3s,background .3s;cursor:none;}
+.gw-group input:focus,.gw-group select:focus{border-color:var(--rust);background:white;}
+.gw-group input::placeholder{color:#c0afa0;}
+.gw-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+
+/* Card preview */
+.card-preview{width:100%;max-width:360px;height:200px;border-radius:12px;background:linear-gradient(135deg,#2c1a12 0%,#4a2c1c 50%,#2c1a12 100%);padding:28px;margin-bottom:32px;position:relative;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.18);}
+.card-preview::before{content:'';position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:rgba(181,64,26,.25);}
+.card-preview::after{content:'';position:absolute;bottom:-40px;left:20px;width:120px;height:120px;border-radius:50%;background:rgba(196,168,130,.12);}
+.card-chip{width:44px;height:32px;border-radius:5px;background:linear-gradient(135deg,var(--taupe),var(--copper));margin-bottom:24px;position:relative;z-index:1;}
+.card-number-preview{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.18em;color:rgba(245,239,230,.75);margin-bottom:18px;position:relative;z-index:1;}
+.card-preview-bottom{display:flex;justify-content:space-between;position:relative;z-index:1;}
+.card-preview-label{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,230,.3);margin-bottom:3px;}
+.card-preview-value{font-size:.9rem;font-weight:400;color:rgba(245,239,230,.75);font-family:'Jost',sans-serif;}
+
+.upi-info-box{background:var(--ecru);border:1px solid rgba(181,64,26,.12);border-radius:2px;padding:24px;margin-top:24px;}
+.upi-info-box p{font-size:.88rem;font-weight:300;color:#7a5a44;line-height:1.6;}
+.upi-id{font-weight:600;color:var(--rust);font-size:1.05rem;}
+.bank-details-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px;}
+.bank-detail-item{background:var(--ecru);padding:16px 18px;border:1px solid rgba(181,64,26,.1);border-radius:2px;}
+.bank-detail-label{font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--copper);margin-bottom:4px;}
+.bank-detail-value{font-size:.92rem;color:var(--ink);font-weight:400;}
+
+.trust-strip{display:flex;gap:0;margin-top:48px;border:1px solid rgba(181,64,26,.1);border-radius:2px;overflow:hidden;}
+.trust-item{flex:1;padding:20px 16px;background:white;border-right:1px solid rgba(181,64,26,.08);display:flex;align-items:center;gap:12px;}
+.trust-item:last-child{border-right:none;}
+.trust-icon{font-size:1.3rem;}
+.trust-text strong{display:block;font-size:.78rem;font-weight:600;letter-spacing:.04em;color:var(--ink);}
+.trust-text span{font-size:.72rem;color:var(--silver);}
+
+/* ORDER */
+.order-sec{background:var(--ink);}
+.order-grid{display:grid;grid-template-columns:1.3fr .7fr;gap:60px;margin-top:56px;}
+.order-form{background:#16130f;border:1px solid rgba(196,168,130,.1);border-radius:2px;padding:52px;}
+.form-row2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.fg{margin-bottom:22px;}
+.fg label{display:block;font-size:.63rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);margin-bottom:9px;}
+.fg input,.fg select,.fg textarea{width:100%;padding:14px 18px;background:rgba(255,255,255,.04);border:1px solid rgba(196,168,130,.15);border-radius:2px;color:var(--parchment);font-family:'Jost',sans-serif;font-size:.95rem;font-weight:300;outline:none;transition:border-color .3s,background .3s;cursor:none;}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(245,239,230,.2);}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(196,168,130,.4);background:rgba(255,255,255,.07);}
+.fg select option{background:var(--ink);}
+.fg textarea{height:100px;resize:none;}
+.pay-method-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:28px;}
+.pm-btn{padding:14px 8px;text-align:center;border:1px solid rgba(196,168,130,.14);border-radius:2px;font-family:'Jost',sans-serif;font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,239,230,.4);cursor:none;transition:all .3s;background:transparent;}
+.pm-btn.on{border-color:var(--rust);color:var(--clay);background:rgba(181,64,26,.08);}
+.pm-btn:hover{border-color:rgba(196,168,130,.4);color:rgba(245,239,230,.7);}
+.pm-icon{display:block;font-size:1.2rem;margin-bottom:5px;}
+.submit-btn{width:100%;padding:18px;background:var(--rust);color:var(--parchment);font-family:'Jost',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;border:none;border-radius:2px;cursor:none;transition:background .3s,transform .3s;box-shadow:0 6px 28px rgba(181,64,26,.35);}
+.submit-btn:hover{background:var(--sienna);transform:translateY(-2px);}
+.order-aside{position:sticky;top:110px;}
+.aside-card{background:#16130f;border:1px solid rgba(196,168,130,.1);border-radius:2px;padding:36px;margin-bottom:20px;}
+.aside-title{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--taupe);margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid rgba(196,168,130,.1);}
+.aside-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.aside-label{font-size:.88rem;font-weight:300;color:rgba(245,239,230,.45);}
+.aside-val{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--taupe);}
+.aside-total{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(196,168,130,.18);margin-top:8px;}
+.aside-total-label{font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--copper);}
+.aside-total-val{font-family:'DM Serif Display',serif;font-size:1.6rem;color:var(--parchment);}
+.contact-aside{background:#16130f;border:1px solid rgba(196,168,130,.1);border-radius:2px;padding:24px;}
+.contact-aside p{font-size:.85rem;font-weight:300;color:rgba(245,239,230,.4);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.contact-aside a{color:var(--clay);text-decoration:none;}
+
+/* NEWSLETTER */
+.newsletter{background:var(--ecru);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.nl-left h2{font-family:'DM Serif Display',serif;font-size:clamp(2rem,3.5vw,3rem);color:var(--ink);margin-bottom:12px;}
+.nl-left h2 em{font-style:italic;color:var(--rust);}
+.nl-left p{font-size:.95rem;font-weight:300;line-height:1.75;color:#7a5a44;}
+.nl-form{display:flex;flex-direction:column;gap:14px;}
+.nl-input{padding:16px 22px;border:1px solid rgba(181,64,26,.2);border-radius:2px;background:white;font-family:'Jost',sans-serif;font-size:.95rem;font-weight:300;outline:none;color:var(--ink);transition:border-color .3s;cursor:none;}
+.nl-input:focus{border-color:var(--rust);}
+.nl-input::placeholder{color:#c0afa0;}
+.nl-sub{padding:16px;background:var(--rust);color:var(--parchment);border:none;border-radius:2px;cursor:none;font-family:'Jost',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;transition:background .3s;}
+.nl-sub:hover{background:var(--sienna);}
+
+/* FOOTER */
+footer{background:#0a0805;padding:64px 64px 36px;border-top:1px solid rgba(196,168,130,.06);}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:56px;margin-bottom:56px;}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.14em;color:var(--parchment);margin-bottom:16px;display:block;text-decoration:none;}
+.footer-tagline{font-size:.88rem;font-weight:300;line-height:1.7;color:rgba(245,239,230,.28);}
+.footer-socials{display:flex;gap:12px;margin-top:24px;}
+.soc-link{width:38px;height:38px;border:1px solid rgba(196,168,130,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:rgba(245,239,230,.3);text-decoration:none;transition:all .3s;}
+.soc-link:hover{border-color:var(--copper);color:var(--taupe);}
+.footer-col h5{font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--copper);margin-bottom:20px;}
+.footer-col ul{list-style:none;}
+.footer-col ul li{margin-bottom:10px;}
+.footer-col ul a{font-size:.88rem;font-weight:300;color:rgba(245,239,230,.28);text-decoration:none;transition:color .3s;}
+.footer-col ul a:hover{color:rgba(245,239,230,.65);}
+.footer-bottom{padding-top:28px;border-top:1px solid rgba(196,168,130,.06);display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;}
+.footer-bottom p{font-size:.75rem;color:rgba(245,239,230,.18);}
+.footer-bottom a{color:var(--clay);text-decoration:none;}
+
+/* MODALS */
+.modal-bg{display:none;position:fixed;inset:0;z-index:800;background:rgba(10,8,5,.82);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px;}
+.modal-bg.open{display:flex;}
+.modal-box{background:var(--ink);border:1px solid rgba(196,168,130,.15);border-radius:2px;max-width:520px;width:100%;padding:52px;position:relative;animation:min .4s ease;}
+@keyframes min{from{opacity:0;transform:scale(.95) translateY(24px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-x{position:absolute;top:20px;right:20px;background:none;border:none;color:rgba(245,239,230,.3);font-size:1.3rem;cursor:none;transition:color .3s;}
+.modal-x:hover{color:var(--parchment);}
+.modal-emoji{font-size:2.5rem;margin-bottom:16px;}
+.modal-box h3{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--taupe);margin-bottom:10px;}
+.modal-box p{font-size:.95rem;font-weight:300;line-height:1.75;color:rgba(245,239,230,.5);margin-bottom:20px;}
+.modal-price{font-family:'DM Serif Display',serif;font-size:1.3rem;color:var(--parchment);margin-bottom:24px;}
+.modal-price s{font-size:.9rem;font-family:'Jost',sans-serif;color:rgba(245,239,230,.25);margin-right:8px;}
+
+.toast{position:fixed;bottom:28px;right:28px;z-index:900;background:var(--rust);color:var(--parchment);padding:14px 22px;font-size:.78rem;font-weight:500;letter-spacing:.1em;border-radius:2px;transform:translateY(80px);opacity:0;transition:all .4s;max-width:320px;}
+.toast.on{transform:translateY(0);opacity:1;}
+
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr;}.hero-right{display:none;}
+  .story{grid-template-columns:1fr;}.story-visuals{height:380px;}
+  .order-grid{grid-template-columns:1fr;}.order-aside{position:static;}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .process-inner{grid-template-columns:1fr;}.process-left{position:static;}
+  .newsletter{grid-template-columns:1fr;gap:40px;}
+  .test-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:768px){
+  nav{padding:16px 24px;}.nav.scrolled{padding:12px 24px;}.nav-links{display:none;}
+  section{padding:72px 24px;}.hero-left{padding:0 24px 64px;}
+  .shop-grid{grid-template-columns:1fr;}.test-grid{grid-template-columns:1fr;}
+  .payment-tabs{flex-wrap:wrap;}.pay-tab{flex:1 1 33%;}
+  .footer-top{grid-template-columns:1fr;}footer{padding:48px 24px 28px;}
+  .trust-strip{flex-wrap:wrap;}.trust-item{flex:1 1 45%;}
+  .gw-row{grid-template-columns:1fr;}.bank-details-grid{grid-template-columns:1fr;}
+  .pay-method-grid{grid-template-columns:repeat(2,1fr);}
+  .form-row2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-r" id="curR"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="logo">Keepsy<sup>®</sup></a>
+  <ul class="nav-links">
+    <li><a href="#shop">Collection</a></li>
+    <li><a href="#story">Story</a></li>
+    <li><a href="#process">Craft</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#payment">Payment</a></li>
+  </ul>
+  <a href="#order" class="nav-btn">Order Now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <div class="hero-bg-text">KEEPSY</div>
+    <div class="hero-eyebrow"><div class="hero-line"></div>Est. February 2026 · Delhi<div class="hero-line"></div></div>
+    <h1>Your Memories,<br><em>Captured</em> in<br>Resin</h1>
+    <p class="hero-desc">Keepsy crafts personalised resin keepsakes — engraved with names, dates, and stories that matter. Not just ornaments. Memories you can hold.</p>
+    <div class="hero-btns">
+      <a href="#shop" class="btn-fill">Explore Collection</a>
+      <a href="#story" class="btn-ghost">Our Story</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="/mnt/user-data/uploads/Earring.jpeg" alt="Keepsy Earrings" class="hero-img-main" onerror="this.style.background='linear-gradient(135deg,#2c1a12,#7a3d1e)'">
+    <div class="hero-img-overlay"></div>
+    <div class="hero-detail-card"><strong>100%</strong><span>Pure Raisin Resin</span></div>
+  </div>
+  <div class="hero-scroll-hint"><div class="scroll-bar"></div><span>Scroll</span></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="m-dot">◆</span>Personalised Resin Keepsakes<span class="m-dot">◆</span>Names · Dates · Themes<span class="m-dot">◆</span>Free Shipping ₹999+<span class="m-dot">◆</span>Custom Orders Welcome<span class="m-dot">◆</span>Handmade in Delhi<span class="m-dot">◆</span>Gift Packaging Included<span class="m-dot">◆</span>Est. Feb 2026</div>
+    <div class="marquee-item"><span class="m-dot">◆</span>Personalised Resin Keepsakes<span class="m-dot">◆</span>Names · Dates · Themes<span class="m-dot">◆</span>Free Shipping ₹999+<span class="m-dot">◆</span>Custom Orders Welcome<span class="m-dot">◆</span>Handmade in Delhi<span class="m-dot">◆</span>Gift Packaging Included<span class="m-dot">◆</span>Est. Feb 2026</div>
+  </div>
+</div>
+
+<!-- STORY -->
+<div class="story" id="story">
+  <div class="story-visuals">
+    <img src="/mnt/user-data/uploads/bracelet.jpeg" alt="Keepsy Bracelet" class="story-img-a" onerror="this.style.background='linear-gradient(135deg,#7a3d1e,#c05a2c)'">
+    <img src="/mnt/user-data/uploads/Earring.jpeg" alt="Keepsy Earrings" class="story-img-b" onerror="this.style.background='linear-gradient(135deg,#4a2c1c,#9e6b3a)'">
+    <div class="story-year-badge"><strong>FEB</strong><span>2026 · Founded</span></div>
+  </div>
+  <div class="story-content">
+    <div class="label-tag">Our Story</div>
+    <h2 class="sec-title">Born From a<br><em>Desire to Remember</em></h2>
+    <p class="story-body">Keepsy was founded in February 2026 by <strong>Aman Raj</strong> and <strong>Suyash Pratap</strong> in Delhi with one belief — that memories deserve a permanent home. We make personalised resin ornaments engraved with names, dates, and themes that are deeply personal to you.<br><br>We don't make generic decor. We make keepsakes — objects that carry meaning, trigger emotion, and stand the test of time. Starting from Delhi, we're growing one memory at a time.</p>
+    <div class="story-pillars">
+      <div class="pillar"><div class="pillar-icon">✍️</div><div class="pillar-title">Fully Personalised</div><p class="pillar-desc">Every piece is customised with your name, date, or theme — no two Keepsy pieces are ever the same.</p></div>
+      <div class="pillar"><div class="pillar-icon">💛</div><div class="pillar-title">Memory-Driven</div><p class="pillar-desc">We don't make decor. We make keepsakes — objects built around moments that matter to you.</p></div>
+      <div class="pillar"><div class="pillar-icon">📍</div><div class="pillar-title">Starting in Delhi</div><p class="pillar-desc">Born in Delhi, we're growing city by city — bringing personalised keepsakes closer to every home.</p></div>
+      <div class="pillar"><div class="pillar-icon">🎁</div><div class="pillar-title">Gift-Ready Always</div><p class="pillar-desc">Each order ships in a premium box with tissue and a handwritten note — perfect as a gift.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- SHOP -->
+<section class="shop" id="shop">
+  <div class="shop-intro">
+    <div><div class="label-tag" style="color:var(--clay)">Collection</div><h2 class="sec-title light">Our <em>Keepsakes</em></h2></div>
+    <a href="#order" class="btn-ghost">Order Custom →</a>
+  </div>
+  <div class="shop-grid">
+    <div class="product-card" onclick="openModal('bracelet')">
+      <div class="product-img-wrap">
+        <img src="/mnt/user-data/uploads/bracelet.jpeg" alt="Crimson Clover Bracelet">
+        <div class="product-overlay"></div>
+        <div class="product-tag">Bestseller</div>
+        <button class="quick-order-btn" onclick="event.stopPropagation();scrollToOrder('Crimson Clover Bracelet|699')">+</button>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Bracelet</div>
+        <div class="product-name">Crimson Clover<br>Bracelet</div>
+        <p class="product-desc">Five hand-set clover charms made from raisins — customisable with your name or a meaningful date engraved on the clasp. Your story, worn on your wrist.</p>
+        <div class="product-bottom"><div class="product-price"><s>₹899</s> ₹699</div><div style="display:flex;gap:2px;font-size:.75rem;color:var(--copper);">★★★★★</div></div>
+      </div>
+    </div>
+    <div class="product-card" onclick="openModal('earring')">
+      <div class="product-img-wrap">
+        <img src="/mnt/user-data/uploads/Earring.jpeg" alt="Ember Drop Earrings">
+        <div class="product-overlay"></div>
+        <div class="product-tag">New Arrival</div>
+        <button class="quick-order-btn" onclick="event.stopPropagation();scrollToOrder('Ember Drop Earrings|999')">+</button>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Earrings</div>
+        <div class="product-name">Ember Drop<br>Earrings</div>
+        <p class="product-desc">Filigree frames with hand-crushed raisin chips forming a stunning mosaic — personalised with a theme, initials, or colour palette chosen by you. A keepsake you'll wear forever.</p>
+        <div class="product-bottom"><div class="product-price"><s>₹1299</s> ₹999</div><div style="display:flex;gap:2px;font-size:.75rem;color:var(--copper);">★★★★★</div></div>
+      </div>
+    </div>
+    <div class="product-card" onclick="scrollToOrder('Crimson Collection Set|1599')">
+      <div class="product-img-wrap" style="background:linear-gradient(145deg,#1a0a00,#3c1a0a);display:flex;align-items:center;justify-content:center;">
+        <div style="position:relative;width:220px;height:220px;">
+          <img src="/mnt/user-data/uploads/bracelet.jpeg" alt="" style="width:120px;height:140px;object-fit:cover;border:3px solid rgba(196,168,130,.25);position:absolute;left:10px;top:40px;border-radius:2px;filter:brightness(.85);" onerror="this.style.background='#7a3d1e'">
+          <img src="/mnt/user-data/uploads/Earring.jpeg" alt="" style="width:110px;height:130px;object-fit:cover;border:3px solid rgba(196,168,130,.25);position:absolute;right:10px;top:20px;border-radius:2px;filter:brightness(.85);" onerror="this.style.background='#4a2c1c'">
+        </div>
+        <div class="product-overlay"></div>
+        <div class="product-tag" style="background:var(--copper)">Save 20%</div>
+        <button class="quick-order-btn">+</button>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">Gift Set</div>
+        <div class="product-name">Crimson<br>Collection Set</div>
+        <p class="product-desc">The complete Keepsy experience — bracelet and earrings, both fully personalised with a shared name, date, or theme. Presented in a signature gift box. Perfect for anniversaries or birthdays.</p>
+        <div class="product-bottom"><div class="product-price"><s>₹2199</s> ₹1599</div><div style="display:flex;gap:2px;font-size:.75rem;color:var(--copper);">★★★★★</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-inner">
+    <div class="process-left">
+      <div class="label-tag">The Craft</div>
+      <h2 class="sec-title">How Every<br><em>Memory</em> is Made</h2>
+      <p class="process-body">Every Keepsy piece passes through four stages of care. Your personalisation details are woven in at every step — nothing is generic, nothing is rushed.</p>
+      <a href="#order" class="btn-fill" style="display:inline-block;margin-top:8px">Order a Piece →</a>
+    </div>
+    <div class="process-steps">
+      <div class="process-step"><div class="step-num-box">01</div><div><div class="step-icon-row"><span class="step-emoji">✍️</span><div class="step-title">Your Personalisation</div></div><p class="step-body">You share your name, date, theme or message. We plan the design around your memory — nothing is templated.</p></div></div>
+      <div class="process-step"><div class="step-num-box">02</div><div><div class="step-icon-row"><span class="step-emoji">🎨</span><div class="step-title">Hand-Pour & Embed</div></div><p class="step-body">Raisin resin is hand-poured into moulds and your personalisation is embedded — letters, dates, charms — before the resin sets.</p></div></div>
+      <div class="process-step"><div class="step-num-box">03</div><div><div class="step-icon-row"><span class="step-emoji">✨</span><div class="step-title">Polish & Finish</div></div><p class="step-body">Pieces are hand-sanded through eight grits and polished to a mirror shine, then set into their frames and inspected.</p></div></div>
+      <div class="process-step"><div class="step-num-box">04</div><div><div class="step-icon-row"><span class="step-emoji">📦</span><div class="step-title">Gift Wrapped & Shipped</div></div><p class="step-body">Your keepsake is wrapped in premium tissue, sealed with a wax stamp, boxed with a handwritten note and dispatched from Delhi.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="label-tag" style="color:var(--clay)">Customer Love</div>
+  <h2 class="sec-title light">What Our <em>Customers</em> Say</h2>
+  <div class="test-grid">
+    <div class="test-card"><div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><p class="test-quote">"The bracelet arrived beautifully packaged and looked even better in person. The raisin resin has this incredible warmth to it. I've received so many compliments!"</p><div class="test-author"><div class="test-avatar">P</div><div><div class="test-name">Priya Sharma</div><div class="test-loc">Delhi, India</div></div></div></div>
+    <div class="test-card"><div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><p class="test-quote">"Ordered the earrings as a birthday gift and my friend absolutely loved them. The filigree and raisin resin combination is just stunning. Will order again!"</p><div class="test-author"><div class="test-avatar">R</div><div><div class="test-name">Ritu Mehra</div><div class="test-loc">Jaipur, India</div></div></div></div>
+    <div class="test-card"><div class="test-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div><p class="test-quote">"Got the complete set for my anniversary. The quality is exceptional. You can tell these are truly handmade with love. Highly recommend Keepsy!"</p><div class="test-author"><div class="test-avatar">A</div><div><div class="test-name">Anjali Patel</div><div class="test-loc">Mumbai, India</div></div></div></div>
+  </div>
+</section>
+
+<!-- PAYMENT GATEWAY SECTION -->
+<section class="payment-sec" id="payment">
+  <div class="label-tag">Secure Checkout</div>
+  <h2 class="sec-title">Choose Your <em>Payment Method</em></h2>
+  <p style="font-size:.95rem;font-weight:300;color:#7a5a44;margin-top:14px;max-width:540px">All transactions are processed securely. Select a method below and enter your details.</p>
+
+  <div class="payment-tabs">
+    <button class="pay-tab active" onclick="switchTab('upi',this)"><span class="pay-tab-icon">📱</span><span>UPI</span></button>
+    <button class="pay-tab" onclick="switchTab('card',this)"><span class="pay-tab-icon">💳</span><span>Card</span></button>
+    <button class="pay-tab" onclick="switchTab('bank',this)"><span class="pay-tab-icon">🏦</span><span>Bank Transfer</span></button>
+    <button class="pay-tab" onclick="switchTab('cod',this)"><span class="pay-tab-icon">🛒</span><span>Cash on Delivery</span></button>
+    <button class="pay-tab" onclick="switchTab('email',this)"><span class="pay-tab-icon">📧</span><span>Email Order</span></button>
+  </div>
+
+  <div class="payment-panels">
+
+    <!-- UPI -->
+    <div class="pay-panel active" id="panel-upi">
+      <div class="pay-panel-inner">
+        <h3>Pay via UPI</h3>
+        <p class="note">Enter your UPI details below. We accept GPay, PhonePe, Paytm & all UPI-enabled apps.</p>
+        <div class="gw-group"><label>Your UPI ID</label><input type="text" placeholder="e.g. yourname@upi or 98765@oksbi"></div>
+        <div class="gw-group"><label>Amount (₹)</label><input type="number" placeholder="Enter order amount"></div>
+        <div class="gw-group"><label>Your Full Name</label><input type="text" placeholder="Name as on your account"></div>
+        <div class="gw-group"><label>Order / Payment Remark</label><input type="text" placeholder="e.g. Keepsy Bracelet Order"></div>
+        <div class="upi-info-box"><p>Pay to our UPI ID: <span class="upi-id">8083675985@upi</span><br>After payment, share your UTR / transaction reference number in the order form notes so we can confirm your order quickly.</p></div>
+      </div>
+    </div>
+
+    <!-- CARD -->
+    <div class="pay-panel" id="panel-card">
+      <div class="pay-panel-inner" style="max-width:700px">
+        <h3>Debit / Credit Card</h3>
+        <p class="note">All major cards accepted — Visa, Mastercard, RuPay, Amex. Your details are fully encrypted.</p>
+        <div class="card-preview" id="cardPreview">
+          <div class="card-chip"></div>
+          <div class="card-number-preview" id="previewNum">•••• •••• •••• ••••</div>
+          <div class="card-preview-bottom">
+            <div><div class="card-preview-label">Cardholder</div><div class="card-preview-value" id="previewName">YOUR NAME</div></div>
+            <div><div class="card-preview-label">Expires</div><div class="card-preview-value" id="previewExp">MM/YY</div></div>
+          </div>
+        </div>
+        <div class="gw-group"><label>Card Number</label><input type="text" id="cardNum" placeholder="1234  5678  9012  3456" maxlength="19" oninput="fmtCard(this)"></div>
+        <div class="gw-group"><label>Cardholder Name</label><input type="text" id="cardName" placeholder="Name exactly as on card" oninput="document.getElementById('previewName').textContent=(this.value||'YOUR NAME').toUpperCase()"></div>
+        <div class="gw-row">
+          <div class="gw-group" style="margin-bottom:0"><label>Expiry Date</label><input type="text" id="cardExp" placeholder="MM / YY" maxlength="7" oninput="fmtExp(this)" onchange="document.getElementById('previewExp').textContent=this.value||'MM/YY'"></div>
+          <div class="gw-group" style="margin-bottom:0"><label>CVV</label><input type="password" placeholder="•••" maxlength="4"></div>
+        </div>
+        <div class="gw-group" style="margin-top:18px"><label>Amount (₹)</label><input type="number" placeholder="Enter order amount"></div>
+        <div class="gw-group"><label>Billing Address (optional)</label><input type="text" placeholder="Address for card verification"></div>
+      </div>
+    </div>
+
+    <!-- BANK -->
+    <div class="pay-panel" id="panel-bank">
+      <div class="pay-panel-inner">
+        <h3>Bank Transfer</h3>
+        <p class="note">Transfer directly via NEFT, IMPS or RTGS. Please include your name and order in the remarks field.</p>
+        <div class="gw-group"><label>Your Full Name</label><input type="text" placeholder="Name as on your bank account"></div>
+        <div class="gw-group"><label>Your Bank Name</label><input type="text" placeholder="e.g. SBI, HDFC, ICICI, Axis..."></div>
+        <div class="gw-group"><label>Amount Transferring (₹)</label><input type="number" placeholder="Enter amount"></div>
+        <div class="gw-group"><label>Transaction / UTR Reference No.</label><input type="text" placeholder="Enter after transfer for order confirmation"></div>
+        <div class="bank-details-grid">
+          <div class="bank-detail-item"><div class="bank-detail-label">Account Name</div><div class="bank-detail-value">Keepsy</div></div>
+          <div class="bank-detail-item"><div class="bank-detail-label">Bank</div><div class="bank-detail-value">State Bank of India</div></div>
+          <div class="bank-detail-item"><div class="bank-detail-label">Account No.</div><div class="bank-detail-value">XXXX XXXX XXXX</div></div>
+          <div class="bank-detail-item"><div class="bank-detail-label">IFSC Code</div><div class="bank-detail-value">SBIN0XXXXXX</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COD -->
+    <div class="pay-panel" id="panel-cod">
+      <div class="pay-panel-inner">
+        <h3>Cash on Delivery</h3>
+        <p class="note">Pay when your order arrives. Available for most PIN codes across India. No advance payment needed.</p>
+        <div class="gw-group"><label>Full Name</label><input type="text" placeholder="Your full name"></div>
+        <div class="gw-group"><label>Mobile Number</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
+        <div class="gw-group"><label>Delivery PIN Code</label><input type="text" placeholder="6-digit PIN code" maxlength="6"></div>
+        <div class="gw-group"><label>Full Delivery Address</label><input type="text" placeholder="House no., Street, City, State"></div>
+        <div class="gw-group"><label>Product Ordered</label>
+          <select><option value="">— Select product —</option><option>Crimson Clover Bracelet — ₹699</option><option>Ember Drop Earrings — ₹999</option><option>Crimson Collection Set — ₹1599</option></select>
+        </div>
+        <div class="upi-info-box"><p>COD available on orders up to ₹2000. A ₹40 COD handling fee applies. Our team will confirm delivery availability at your PIN code within 24 hours.</p></div>
+      </div>
+    </div>
+
+    <!-- EMAIL ORDER -->
+    <div class="pay-panel" id="panel-email">
+      <div class="pay-panel-inner">
+        <h3>Order via Email</h3>
+        <p class="note">Send us your order by email and we'll reply within 24 hours with payment instructions.</p>
+        <div class="gw-group"><label>Your Name</label><input type="text" id="emailName" placeholder="Your full name"></div>
+        <div class="gw-group"><label>Your Email</label><input type="email" id="emailAddr" placeholder="your@email.com"></div>
+        <div class="gw-group"><label>Product You Want</label>
+          <select id="emailProduct">
+            <option value="">— Select product —</option>
+            <option>Crimson Clover Bracelet — ₹699</option>
+            <option>Ember Drop Earrings — ₹999</option>
+            <option>Crimson Collection Set — ₹1599</option>
+            <option>Custom Order</option>
+          </select>
+        </div>
+        <div class="gw-group"><label>Message / Special Request</label><input type="text" id="emailMsg" placeholder="Gift message, custom details, etc."></div>
+        <button class="btn-fill" style="width:100%;text-align:center;display:block;margin-top:8px" onclick="sendEmailOrder()">Send Order Email →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-strip">
+    <div class="trust-item"><span class="trust-icon">🔒</span><div class="trust-text"><strong>Secure Payments</strong><span>SSL encrypted</span></div></div>
+    <div class="trust-item"><span class="trust-icon">🚚</span><div class="trust-text"><strong>Free Shipping</strong><span>On orders above ₹999</span></div></div>
+    <div class="trust-item"><span class="trust-icon">↩️</span><div class="trust-text"><strong>7-Day Returns</strong><span>No questions asked</span></div></div>
+    <div class="trust-item"><span class="trust-icon">📦</span><div class="trust-text"><strong>Gift Packaged</strong><span>Every single order</span></div></div>
+    <div class="trust-item"><span class="trust-icon">🇮🇳</span><div class="trust-text"><strong>Made in India</strong><span>Proudly artisan</span></div></div>
+  </div>
+</section>
+
+<!-- ORDER FORM -->
+<section class="order-sec" id="order">
+  <div class="label-tag" style="color:var(--clay)">Place Your Order</div>
+  <h2 class="sec-title light">Order Your <em>Keepsake</em></h2>
+  <div class="order-grid">
+    <div class="order-form">
+      <div class="form-row2" style="margin-bottom:22px">
+        <div class="fg"><label>First Name</label><input type="text" id="fName" placeholder="Aman"></div>
+        <div class="fg"><label>Last Name</label><input type="text" id="lName" placeholder="Raj"></div>
+      </div>
+      <div class="fg"><label>Email Address</label><input type="email" id="oEmail" placeholder="your@email.com"></div>
+      <div class="fg"><label>Phone Number</label><input type="tel" id="oPhone" placeholder="+91 98765 43210"></div>
+      <div class="fg"><label>Select Product</label>
+        <select id="oProd" onchange="updateSummary()">
+          <option value="">— Choose a piece —</option>
+          <option value="Crimson Clover Bracelet|699">Crimson Clover Bracelet — ₹699</option>
+          <option value="Ember Drop Earrings|999">Ember Drop Earrings — ₹999</option>
+          <option value="Crimson Collection Set|1599">Crimson Collection Set (Bracelet + Earrings) — ₹1599</option>
+          <option value="Custom Order|0">Custom Order</option>
+        </select>
+      </div>
+      <div class="fg"><label>Delivery Address</label><textarea id="oAddr" placeholder="Full address with city, state, PIN code..."></textarea></div>
+      <div class="fg"><label>Special Notes (optional)</label><input type="text" id="oNotes" placeholder="Gift message, size preference..."></div>
+      <div class="fg">
+        <label>Payment Method</label>
+        <div class="pay-method-grid">
+          <button class="pm-btn on" onclick="selPay(this,'UPI')"><span class="pm-icon">📱</span>UPI</button>
+          <button class="pm-btn" onclick="selPay(this,'Card')"><span class="pm-icon">💳</span>Card</button>
+          <button class="pm-btn" onclick="selPay(this,'Bank Transfer')"><span class="pm-icon">🏦</span>Bank</button>
+          <button class="pm-btn" onclick="selPay(this,'Cash on Delivery')"><span class="pm-icon">🛒</span>COD</button>
+          <button class="pm-btn" onclick="selPay(this,'Email Order')"><span class="pm-icon">📧</span>Email</button>
+        </div>
+      </div>
+      <button class="submit-btn" onclick="placeOrder()">◆ Confirm My Order</button>
+    </div>
+    <div class="order-aside">
+      <div class="aside-card">
+        <div class="aside-title">Order Summary</div>
+        <div id="asideRows"><div class="aside-row"><span class="aside-label">No product selected</span><span class="aside-val">—</span></div></div>
+        <div class="aside-row"><span style="font-size:.8rem;color:rgba(245,239,230,.28)">Shipping</span><span style="font-size:.8rem;color:rgba(245,239,230,.28)">Free above ₹999</span></div>
+        <div class="aside-total"><span class="aside-total-label">Total</span><span class="aside-total-val" id="asideTotal">₹0</span></div>
+      </div>
+      <div class="contact-aside">
+        <p>📧 <a href="mailto:amanraj.srccgbo@gmail.com">amanraj.srccgbo@gmail.com</a></p>
+        <p>⏱ Reply within 24 hours</p>
+        <p>📦 Ships in 3–5 business days from Delhi</p>
+        <p>🔒 Your data is private &amp; secure</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="newsletter" id="newsletter">
+  <div class="nl-left">
+    <h2>Stay Close<br>to the <em>Craft</em></h2>
+    <p>Get first access to new collections, behind-the-scenes stories, and exclusive offers from Keepsy — straight to your inbox.</p>
+  </div>
+  <div>
+    <div class="nl-form">
+      <input class="nl-input" type="text" placeholder="Your name">
+      <input class="nl-input" type="email" id="nlEmail" placeholder="Your email address">
+      <button class="nl-sub" onclick="subscribeNL()">Subscribe to Newsletter</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <a href="#" class="footer-logo">Keepsy</a>
+      <p class="footer-tagline">Personalised resin keepsakes made with love in Delhi. Founded by Aman Raj &amp; Suyash Pratap. Every piece carries a memory — yours. Est. February 2026.</p>
+      <div class="footer-socials">
+        <a class="soc-link" href="mailto:amanraj.srccgbo@gmail.com" title="Email">✉</a>
+        <a class="soc-link" href="#" title="Instagram">📸</a>
+        <a class="soc-link" href="#" title="Facebook">f</a>
+      </div>
+    </div>
+    <div class="footer-col"><h5>Collection</h5><ul><li><a href="#shop">Bracelets</a></li><li><a href="#shop">Earrings</a></li><li><a href="#shop">Gift Sets</a></li><li><a href="#order">Custom Orders</a></li></ul></div>
+    <div class="footer-col"><h5>Company</h5><ul><li><a href="#story">Our Story</a></li><li><a href="#process">The Craft</a></li><li><a href="#testimonials">Reviews</a></li><li><a href="#newsletter">Newsletter</a></li></ul></div>
+    <div class="footer-col"><h5>Support</h5><ul><li><a href="mailto:amanraj.srccgbo@gmail.com">Email Us</a></li><li><a href="#payment">Payment Info</a></li><li><a href="#">Shipping Policy</a></li><li><a href="#">Returns</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Keepsy. All rights reserved. Est. February 2026 · Made with ♥ in Delhi, India.</p>
+    <p>Contact: <a href="mailto:amanraj.srccgbo@gmail.com">amanraj.srccgbo@gmail.com</a></p>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<div class="modal-bg" id="modal-bracelet">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeModal('bracelet')">✕</button>
+    <div class="modal-emoji">📿</div>
+    <h3>Crimson Clover Bracelet</h3>
+    <p>Five hand-set clover charms made from raisins — hand-poured and polished to a high gloss. Fully customisable with your name, initials, or a special date. Adjustable extension clasp fits wrist sizes 6–8 inches. Each charm is unique — a keepsake made just for you.</p>
+    <div class="modal-price"><s>₹899</s> ₹699</div>
+    <button class="btn-fill" style="width:100%;text-align:center" onclick="closeModal('bracelet');scrollToOrder('Crimson Clover Bracelet|699')">Order This Piece →</button>
+  </div>
+</div>
+<div class="modal-bg" id="modal-earring">
+  <div class="modal-box">
+    <button class="modal-x" onclick="closeModal('earring')">✕</button>
+    <div class="modal-emoji">💎</div>
+    <h3>Ember Drop Earrings</h3>
+    <p>Filigree frames with hand-crushed raisin chips forming a stunning amber mosaic. Personalised with your chosen theme, colour palette, or initials. Sealed under a clear coat, finished with red coral bead drops. Push-back posts — lightweight, statement, unforgettable.</p>
+    <div class="modal-price"><s>₹1299</s> ₹999</div>
+    <button class="btn-fill" style="width:100%;text-align:center" onclick="closeModal('earring');scrollToOrder('Ember Drop Earrings|999')">Order This Piece →</button>
+  </div>
+</div>
+<div class="modal-bg" id="modal-success">
+  <div class="modal-box" style="text-align:center">
+    <div class="modal-emoji">✅</div>
+    <h3>Order Received!</h3>
+    <p>Thank you! Your order has been sent to the Keepsy team. Aman or Suyash will confirm and get in touch with you within 24 hours to finalise your personalisation and delivery details.</p>
+    <button class="btn-fill" style="margin-top:12px" onclick="document.getElementById('modal-success').classList.remove('open')">Continue Shopping</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const cur=document.getElementById('cur'),curR=document.getElementById('curR');
+document.addEventListener('mousemove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px';curR.style.left=e.clientX+'px';curR.style.top=e.clientY+'px';});
+document.querySelectorAll('a,button,.product-card,.pay-tab,.pillar,.trust-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='16px';cur.style.height='16px';curR.style.width='48px';curR.style.height='48px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='10px';cur.style.height='10px';curR.style.width='32px';curR.style.height='32px';});
+});
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>40));
+function switchTab(id,el){document.querySelectorAll('.pay-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.pay-panel').forEach(p=>p.classList.remove('active'));el.classList.add('active');document.getElementById('panel-'+id).classList.add('active');}
+function fmtCard(el){let v=el.value.replace(/\D/g,'').substring(0,16);el.value=v.replace(/(.{4})/g,'$1 ').trim();document.getElementById('previewNum').textContent=el.value||'•••• •••• •••• ••••';}
+function fmtExp(el){let v=el.value.replace(/\D/g,'').substring(0,4);if(v.length>=2)v=v.substring(0,2)+' / '+v.substring(2);el.value=v;document.getElementById('previewExp').textContent=el.value||'MM/YY';}
+function openModal(t){document.getElementById('modal-'+t).classList.add('open');}
+function closeModal(t){document.getElementById('modal-'+t).classList.remove('open');}
+document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open');}));
+let chosenPay='UPI';
+function selPay(el,method){document.querySelectorAll('.pm-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');chosenPay=method;}
+function updateSummary(){
+  const v=document.getElementById('oProd').value;
+  if(!v){document.getElementById('asideRows').innerHTML='<div class="aside-row"><span class="aside-label">No product selected</span><span class="aside-val">—</span></div>';document.getElementById('asideTotal').textContent='₹0';return;}
+  const [name,price]=v.split('|');
+  document.getElementById('asideRows').innerHTML=`<div class="aside-row"><span class="aside-label">${name}</span><span class="aside-val">${price>0?'₹'+price:'TBD'}</span></div>`;
+  document.getElementById('asideTotal').textContent=price>0?'₹'+price:'TBD';
+}
+function scrollToOrder(val){
+  document.getElementById('order').scrollIntoView({behavior:'smooth'});
+  setTimeout(()=>{const sel=document.getElementById('oProd');for(let o of sel.options){if(o.value===val){sel.value=val;updateSummary();break;}}},600);
+}
+function placeOrder(){
+  const fn=document.getElementById('fName').value.trim();
+  const em=document.getElementById('oEmail').value.trim();
+  const ph=document.getElementById('oPhone').value.trim();
+  const pr=document.getElementById('oProd').value;
+  const ad=document.getElementById('oAddr').value.trim();
+  if(!fn||!em||!ph||!pr||!ad){showToast('Please fill in all required fields');return;}
+  if(!/\S+@\S+\.\S+/.test(em)){showToast('Please enter a valid email');return;}
+  const[pname]=pr.split('|');
+  const sub=encodeURIComponent('New Order — Keepsy Website');
+  const body=encodeURIComponent(`ORDER DETAILS\n\nName: ${fn} ${document.getElementById('lName').value}\nEmail: ${em}\nPhone: ${ph}\nProduct: ${pname}\nPayment: ${chosenPay}\nAddress: ${ad}\nNotes: ${document.getElementById('oNotes').value||'None'}\n\nSent from Keepsy Website`);
+  window.location.href=`mailto:amanraj.srccgbo@gmail.com?subject=${sub}&body=${body}`;
+  document.getElementById('modal-success').classList.add('open');
+}
+function sendEmailOrder(){
+  const n=document.getElementById('emailName').value.trim();
+  const e=document.getElementById('emailAddr').value.trim();
+  const p=document.getElementById('emailProduct').value;
+  const m=document.getElementById('emailMsg').value;
+  if(!n||!e||!p){showToast('Please fill in name, email and product');return;}
+  const sub=encodeURIComponent('Order Inquiry — Keepsy');
+  const body=encodeURIComponent(`Hi Keepsy,\n\nName: ${n}\nEmail: ${e}\nProduct: ${p}\nMessage: ${m||'None'}\n\nPlease
